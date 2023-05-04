@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>基本緩動運動效果</title>
+    <style type="text/css">
+        * {
+            padding:0;
+            margin:0;
+        }
+
+        #box{
+            width: 200px;
+            height: 200px;
+            background-color:red;
+            position:relative;
+            left:-200px;
+        }
+
+        #box span {
+            position:absolute;
+            width: 40px;
+            height: 60px;
+            color:#fff;
+            background-color:#000000;
+            right:-40px;
+            top:50%;
+            margin-top:-30px;
+            line-height:60px;
+            text-align:center;
+
+        }
+    
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="box">
+        <span>拉開</span>
+    </div>
+
+    <script type="text/javascript">
+        //0~200
+        // 緩慢動畫公式：加速度 = (結束值 - 起始值) / 緩動係數 加速度由慢到慢
+        window.onload = function(){
+            var box = document.getElementById('box');
+            var timer = null,end = 0, end2 = -200;
+            box.onmouseover = function(){
+                clearInterval(timer);
+                timer = setInterval(function(){
+
+                    speed = (end - box.offsetLeft) / 20;// 0.45 == 1 數學Math.ceil()
+                    console.log(box.offsetLeft,speed)
+                    //處理邊界問題
+                    if(box.offsetLeft === end ){
+                        clearInterval(timer);
+                        return;
+                    }
+                    box.style.left =box.offsetLeft + speed + 'px';
+
+                },30);
+
+                box.onmouseout = function(){
+                    clearInterval(timer);
+                    timer = setInterval(function(){
+
+                        speed = Math.floor((end2 - box.offsetLeft)/ 20); //0.45 === 1 數學 Math.ceil()
+                        //處理邊界
+                        if(box.offsetLeft === end2 ){
+                            clearInterval(timer);
+                            return;
+                        }
+
+                        console.log(box.offsetLeft,speed);
+                        box.style.left = box.offsetLeft + speed + 'px'
+
+                    },30);
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>
